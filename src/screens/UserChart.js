@@ -21,52 +21,92 @@ ChartJS.register(
   Legend
 );
 
-const UserChart = ({ dataUrl }) => {
-  const [data, setData] = useState([]);
+const UserChart = ({ data }) => {
 
-  // useEffect(() => {
-  //   fetch(dataUrl)
-  //     .then((response) => response.json())
-  //     .then((data) => setData(data));
-  // }, [dataUrl]);
-
-  useEffect(() => {
-    const newData = [
-      {name: 'Page A', value: 100},
-      {name: 'Page B', value: 20},
-      {name: 'Page C', value: 10}
-    ]
-    
-    setData(newData)
-  }, [])
   const chartData = { 
-    labels: data.map((d) => d.name),
+    labels: data.map((d) => d['drawDate']),
     datasets: [
       {
-        // label: "Data 1",
-        data: data.map((d) => d.value),
+        label: "491",
+        data: data.map((d) => d['from_491']),
+        backgroundColor: "rgba(80, 84, 88, 0.4)",
+        borderColor: "rgba(80, 84, 88, 1)",
+        yAxisID: "y1",
+      },
+      {
+        label: "481",
+        data: data.map((d) => d['from_481']),
+        backgroundColor: "rgba(255, 99, 132, 0.4)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        yAxisID: "y1",
+      },
+      {
+        label: "471",
+        data: data.map((d) => d['from_471']),
+        backgroundColor: "rgba(255, 205, 86, 0.4)",
+        borderColor: "rgba(255, 205, 86, 1)",
+        yAxisID: "y1",
+      },
+      {
+        label: "cut-off",
+        data: data.map((d) => d['cutOff']),
         backgroundColor: "rgba(75,192,192,0.4)",
         borderColor: "rgba(75,192,192,1)",
+        yAxisID: "y2",
       },
-      // {
-      //   label: "Data 2",
-      //   data: data.map((d) => d.value),
-      //   backgroundColor: "rgba(255, 99, 132, 0.4)",
-      //   borderColor: "rgba(255, 99, 132, 1)",
-      // },
-      // {
-      //   label: "Data 3",
-      //   data: data.map((d) => d.value),
-      //   backgroundColor: "rgba(255, 205, 86, 0.4)",
-      //   borderColor: "rgba(255, 205, 86, 1)",
-      // },
     ],
   };
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
+    legend: {
+      display: true,
+      position: 'bottom',
+      onClick: (e, legendItem) => {
+        const index = legendItem.datasetIndex;
+        const ci = e.view.myLine;
+        const meta = ci.getDatasetMeta(index);
+        meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+        ci.update();
+      },
+    },
+    scales: {
+      y1: 
+        {
+          position: 'left',
+          id: 'left-y-axis',
+          scaleLabel: {
+            display: true,
+            labelString: 'Left Axis',
+            fontColor: "rgba(255, 99, 132, 1)",
+          },
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+       y2: {
+          position: 'right',
+          id: 'right-y-axis',
+          scaleLabel: {
+            display: true,
+            labelString: 'Right Axis',
+            fontColor: "rgba(75,192,192,1)",
+          },
+          ticks: {
+            beginAtZero: true,
+          },
+          gridLines: {
+            drawOnChartArea: false,
+          },
+        },
+    },
   };
+  
 
   return <Line data={chartData} options={options} />;
 }
