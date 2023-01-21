@@ -14,13 +14,13 @@ function App() {
     const response = await axios.get(process.env.REACT_APP_DATA);
     if (response.status === 200) {
       const rounds = response.data["rounds"];
-      console.log(rounds)
+      // console.log(rounds)
       const lastRoundNumber = parseInt(rounds[0]["drawNumber"]);
       const latestRounds = rounds.filter(
         (round) =>
           parseInt(round["drawNumber"]) > lastRoundNumber - noRoundsToDisplay
       );
-      console.log(latestRounds);
+      // console.log(latestRounds);
 
       const newData = latestRounds
         .map((round) => {
@@ -43,10 +43,10 @@ function App() {
           };
         })
         .sort((a, b) => {
-          console.log(parseInt(a["drawNumber"]) - parseInt(b["drawNumber"]));
+          // console.log(parseInt(a["drawNumber"]) - parseInt(b["drawNumber"]));
           return parseInt(a["drawNumber"]) - parseInt(b["drawNumber"]);
         });
-      console.log(newData);
+      // console.log(newData);
       setData(newData);
     }
   };
