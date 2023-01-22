@@ -22,33 +22,47 @@ ChartJS.register(
 );
 
 const UserChart = ({ data }) => {
-
   const [offsetCheckBox, setOffsetCheckbox] = useState(true);
 
   const setMinLimit = (val, min) => {
-    return val < min ? 0 : val
-  }
+    return val < min ? 0 : val;
+  };
 
   const chartData = {
     labels: data.map((d) => d["drawDate"]),
     datasets: [
       {
         label: "491",
-        data: data.map((d) => setMinLimit(d["from_491"] - (offsetCheckBox ? parseInt(d["drawSize"]) : 0), 0)),
+        data: data.map((d) =>
+          setMinLimit(
+            d["from_491"] - (offsetCheckBox ? parseInt(d["drawSize"]) : 0),
+            0
+          )
+        ),
         backgroundColor: "rgba(80, 84, 88, 0.4)",
         borderColor: "rgba(80, 84, 88, 1)",
         yAxisID: "y1",
       },
       {
         label: "481",
-        data: data.map((d) => setMinLimit(d["from_481"] - (offsetCheckBox ? parseInt(d["drawSize"]) : 0), 0)),
+        data: data.map((d) =>
+          setMinLimit(
+            d["from_481"] - (offsetCheckBox ? parseInt(d["drawSize"]) : 0),
+            0
+          )
+        ),
         backgroundColor: "rgba(255, 99, 132, 0.4)",
         borderColor: "rgba(255, 99, 132, 1)",
         yAxisID: "y1",
       },
       {
         label: "471",
-        data: data.map((d) => setMinLimit(d["from_471"] - (offsetCheckBox ? parseInt(d["drawSize"]) : 0), 0)),
+        data: data.map((d) =>
+          setMinLimit(
+            d["from_471"] - (offsetCheckBox ? parseInt(d["drawSize"]) : 0),
+            0
+          )
+        ),
         backgroundColor: "rgba(255, 205, 86, 0.4)",
         borderColor: "rgba(255, 205, 86, 1)",
         yAxisID: "y1",
@@ -114,21 +128,23 @@ const UserChart = ({ data }) => {
   };
 
   const handleCheckboxChange = (event) => {
-    console.log(event.target.checked)
+    console.log(event.target.checked);
     setOffsetCheckbox(event.target.checked);
   };
 
   return (
     <>
       <Line data={chartData} options={options} />
-      <label>
-        <input
-          type="checkbox"
-          checked={offsetCheckBox}
-          onChange={handleCheckboxChange}
-        />
-        After Draw
-      </label>
+      <div className="checkbox">
+        <label>
+          <input
+            type="checkbox"
+            checked={offsetCheckBox}
+            onChange={handleCheckboxChange}
+          />
+          After Draw
+        </label>
+      </div>
     </>
   );
 };
