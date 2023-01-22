@@ -1,12 +1,13 @@
 import logo from "./logo.svg";
 import "./App.css";
-import "./assets/style.css"
+import "./assets/style.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Chart from "./screens/UserChart";
 
 function App() {
   const [data, setData] = useState([]);
+
 
   const fetchData = async () => {
     // console.log(process.env.REACT_APP_DATA)
@@ -20,7 +21,7 @@ function App() {
         (round) =>
           parseInt(round["drawNumber"]) > lastRoundNumber - noRoundsToDisplay
       );
-      // console.log(latestRounds);
+      console.log(latestRounds);
 
       const newData = latestRounds
         .map((round) => {
@@ -37,6 +38,7 @@ function App() {
             drawNumber: round["drawNumber"],
             drawDate: round["drawDate"],
             cutOff: round["drawCRS"],
+            drawSize: parseInt(round["drawSize"].replaceAll(",", "")),
             from_491: from_491,
             from_481: from_481,
             from_471: from_471,
@@ -61,11 +63,8 @@ function App() {
         <div className="chart">
           <Chart data={data} />
         </div>
-        
-        
       </div>
     </div>
-
   );
 }
 
