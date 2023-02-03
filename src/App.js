@@ -21,14 +21,20 @@ function App() {
         (round) =>
           parseInt(round["drawNumber"]) > lastRoundNumber - noRoundsToDisplay
       );
-      console.log(latestRounds);
+      // console.log(latestRounds);
 
       const newData = latestRounds
         .map((round) => {
-          const from_491 =
+          let from_491 =
             parseInt(round["dd1"].replaceAll(",", "")) +
             parseInt(round["dd2"].replaceAll(",", "")) +
             parseInt(round["dd4"].replaceAll(",", ""));
+
+          // exception cases for back to back draws with no pool update
+          if(round["drawNumber"] === "240") {
+            from_491 -= 893
+          }
+          
           const from_481 =
             from_491 + parseInt(round["dd5"].replaceAll(",", ""));
           const from_471 =
